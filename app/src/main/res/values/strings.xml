@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Meow-meow-tronome</string>
+    <string name="togglebuttonOn">STOP</string>
+    <string name="togglebuttonOff">PLAY</string>
+    <string name="settings">SETTINGS</string>
+    <string name="volume">VOLUME</string>
+    <string name="tempo">TEMPO</string>
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
+
+</resources>
