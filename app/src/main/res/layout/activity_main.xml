@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
+    android:background="@drawable/bg_sand_gradient"
     tools:context=".MattActivity">
 
     <!-- Кнопка SETTINGS (вверху на всю ширину) -->
@@ -20,14 +20,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Кнопка Play/Stop -->
-
-    <!-- Tempo View (цифровое значение темпа) -->
-
-    <!-- Кнопка + (одинакового размера с -) -->
-
-    <!-- Кнопка - (одинакового размера с +) -->
 
     <ToggleButton
         android:id="@+id/playButton"
@@ -54,36 +46,36 @@
         android:id="@+id/button_plus"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="12dp"
         android:text="+"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tempo_view"
-        app:layout_constraintStart_toEndOf="@+id/tempo_view" />
+        app:layout_constraintEnd_toStartOf="@+id/tempoLabel"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_minus"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="8dp"
         android:text="-"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button_plus"
-        app:layout_constraintStart_toEndOf="@+id/button_plus" />
+        app:layout_constraintBottom_toBottomOf="@+id/button_plus"
+        app:layout_constraintEnd_toStartOf="@+id/button_plus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- Tempo Label (текст "TEMPO") -->
-
-    <!-- SeekBar для темпа -->
     <TextView
         android:id="@+id/tempoLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="65dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="12dp"
         android:gravity="center"
         android:text="@string/tempo"
         android:textAllCaps="true"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button_minus"
-        app:layout_constraintStart_toEndOf="@+id/button_minus" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/tempoChanger"
@@ -104,7 +96,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/meow_meow_tronome_1_no_bg"
+        android:src="@drawable/matt_default_frame"
         app:layout_constraintDimensionRatio="375:415"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"

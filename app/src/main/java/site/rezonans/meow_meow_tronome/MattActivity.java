@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -24,11 +25,14 @@ public class MattActivity extends AppCompatActivity {
 
     private TextView mTempoView;
 
+    MattAnimation animation;
+
     private ToggleButton mPlayButton;
     private SeekBar mTempoChanger;
     private SeekBar mVolumeChanger;
     private Button mTempoPlusOne;
     private Button mTempoMinusOne;
+    private ImageView mImageView;
 
     private SoundPlayer player;
 
@@ -36,6 +40,9 @@ public class MattActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mImageView = findViewById(R.id.matt_the_cat);
+        animation = new MattAnimation(this, mImageView);
 
         player = new SoundPlayer(this);
         player.setBpm(BPM_DEFAULT);
@@ -51,11 +58,14 @@ public class MattActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    System.out.println("Метроном включен (PLAY)");
+                    player.start();
+                    animation.startAnimation();
                 } else {
                     System.out.println("Метроном выключен (STOP)");
+                    player.stop();
+                    animation.stopAnimation();
                 }
-                player.toggle();
+//                player.toggle();
             }
         });
 
@@ -135,7 +145,7 @@ public class MattActivity extends AppCompatActivity {
     private void setBpm(int bpm) {
         mTempoChanger.setProgress(bpmToProgress(bpm));
         player.setBpm(bpm);
-        //после передаем изменения в анимацию
+        animation.setBpm(bpm);
     }
 
     private int progressToBpm(int progress) {
