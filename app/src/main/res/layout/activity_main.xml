@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,108 +8,161 @@
     android:background="@drawable/bg_sand_gradient"
     tools:context=".MattActivity">
 
-    <!-- Кнопка SETTINGS (вверху на всю ширину) -->
-    <Button
-        android:id="@+id/settings"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/settingsCardView"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/settings"
-        android:textSize="22sp"
+        app:cardBackgroundColor="#D49A6A"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ToggleButton
-        android:id="@+id/playButton"
-        android:layout_width="92dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:textOff="@string/togglebuttonOff"
-        android:textOn="@string/togglebuttonOn"
-        app:layout_constraintStart_toStartOf="@+id/settings"
-        app:layout_constraintTop_toBottomOf="@+id/settings" />
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@null"
+            android:fontFamily="@font/pacifico_regular"
+            android:text="@string/settings"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/playCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#D49A6A"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsCardView">
+
+        <ToggleButton
+            android:id="@+id/playButton"
+            android:layout_width="92dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:fontFamily="@font/pacifico_regular"
+            android:textColor="#FFFFFF"
+            android:textOff="@string/togglebuttonOff"
+            android:textOn="@string/togglebuttonOn" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/plusCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:cardBackgroundColor="#D49A6A"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/tempoLabel"
+        app:layout_constraintTop_toBottomOf="@+id/settingsCardView">
+
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:text="+"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/minusCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:cardBackgroundColor="#D49A6A"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/plusCardView"
+        app:layout_constraintTop_toBottomOf="@+id/settingsCardView">
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:text="-"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tempo_view"
-        android:layout_width="75dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="90dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/pacifico_regular"
         android:gravity="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/playButton"
-        app:layout_constraintStart_toEndOf="@+id/playButton" />
-
-    <Button
-        android:id="@+id/button_plus"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="12dp"
-        android:text="+"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/tempoLabel"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_minus"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:text="-"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/button_plus"
-        app:layout_constraintEnd_toStartOf="@+id/button_plus"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tempoChanger" />
 
     <TextView
         android:id="@+id/tempoLabel"
         android:layout_width="65dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="12dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/pacifico_regular"
         android:gravity="center"
         android:text="@string/tempo"
         android:textAllCaps="true"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsCardView" />
 
     <SeekBar
         android:id="@+id/tempoChanger"
-        android:layout_width="0dp"
+        style="@style/CustomSeekBar"
+        android:layout_width="379dp"
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:max="200"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playButton" />
+        app:layout_constraintTop_toBottomOf="@+id/playCardView" />
 
     <ImageView
         android:id="@+id/matt_the_cat"
-        android:layout_width="418dp"
-        android:layout_height="498dp"
+        android:layout_width="394dp"
+        android:layout_height="495dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/matt_the_cat_description"
+        android:layerType="hardware"
         android:src="@drawable/matt_default_frame"
         app:layout_constraintDimensionRatio="375:415"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/volumeChanger"
+        style="@style/CustomSeekBar"
         android:layout_width="0dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="36dp"
         android:max="100"
@@ -119,12 +173,27 @@
         app:layout_constraintTop_toBottomOf="@+id/matt_the_cat"
         app:layout_constraintVertical_bias="0.972" />
 
+    <!--    <com.google.android.material.slider.Slider-->
+    <!--        android:id="@+id/volumeSlider"-->
+    <!--        android:layout_width="411dp"-->
+    <!--        android:layout_height="51dp"-->
+    <!--        android:layout_marginBottom="4dp"-->
+    <!--        android:valueFrom="0"-->
+    <!--        android:valueTo="1"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:thumbColor="@color/design_default_color_primary_dark"-->
+    <!--        app:trackColorActive="@color/material_dynamic_primary10"-->
+    <!--        app:trackColorInactive="@color/material_dynamic_primary40" />-->
+
     <TextView
         android:id="@+id/volumeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="44dp"
+        android:fontFamily="@font/pacifico_regular"
         android:gravity="center"
         android:text="@string/volume"
         android:textAllCaps="true"
@@ -141,3 +210,4 @@
     <!--    tools:context=".MainActivity">-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

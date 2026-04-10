@@ -6,6 +6,7 @@ import android.media.SoundPool;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 
 
 public class SoundPlayer {
@@ -20,6 +21,15 @@ public class SoundPlayer {
 
     private Handler handler;
     private Runnable tickRunnable;
+
+    private long lastPlayTime = 0;
+    private long totalDelta = 0;
+    private int playCount = 0;
+
+    private long nextTickTime = 0;
+    private long lastTickTime = 0;
+
+    private long intervalMs = 0;
 
 
     //    private MetronomeListener listener;
@@ -41,12 +51,30 @@ public class SoundPlayer {
         tickRunnable = new Runnable() {
             @Override
             public void run() {
-                if (isRunning) {
-                    playTick();
+                if (!isRunning) return;
 
-                    int intervalMs = 60000 / bpm;
-                    handler.postDelayed(this, intervalMs);
+                long now = SystemClock.uptimeMillis();
+
+                if (lastTickTime == 0) {
+                    lastTickTime = now;
+                } else {
+                    long expected = lastTickTime + intervalMs;
+                    long drift = now - expected;
+                    if (drift > 10) {  // если отстаём больше чем на 10 мс
+                        System.out.println("Компенсация: drift = " + drift + " мс");
+                        lastTickTime = expected;  // сбрасываем на ожидаемое время
+                    } else {
+                        lastTickTime = now;
+                    }
                 }
+                if (callback != null) {
+                    callback.onTick();
+                }
+
+                playTick();
+
+                long nextDelay = intervalMs - (SystemClock.uptimeMillis() - lastTickTime);
+                handler.postDelayed(this, Math.max(0, nextDelay));
             }
         };
     }
@@ -69,6 +97,25 @@ public class SoundPlayer {
     }
 
     private void playTick() {
+        long now = System.currentTimeMillis();
+        System.out.println("volume в playTick: " + volume);
+
+
+        if (lastPlayTime != 0) {
+            long delta = now - lastPlayTime;
+            totalDelta += delta;
+            playCount++;
+
+            System.out.println("[" + playCount + "] Интервал: " + delta + " мс");
+
+            if (playCount % 10 == 0) {
+                long avg = totalDelta / playCount;
+                System.out.println("Средний интервал за " + playCount + " звуков: " + avg + " мс");
+            }
+        }
+
+        lastPlayTime = now;
+
         if (soundPool != null && tickId != 0) {
             // play(soundId, leftVolume, rightVolume, priority, loop, rate)
             soundPool.play(tickId, volume, volume, 1, 0, 1.0f);
@@ -84,6 +131,14 @@ public class SoundPlayer {
     public void start() {
         if (!isRunning) {
             isRunning = true;
+            intervalMs = 60000 / bpm;  // ← добавить эту строку
+            nextTickTime = SystemClock.uptimeMillis();  // ← сброс
+
+            lastTickTime = 0;
+            lastPlayTime = 0;
+            totalDelta = 0;
+            playCount = 0;
+
             handler.post(tickRunnable);
         }
     }
@@ -91,6 +146,8 @@ public class SoundPlayer {
     public void stop() {
         if (isRunning) {
             isRunning = false;
+            lastTickTime = 0;
+            lastPlayTime = 0;
             handler.removeCallbacks(tickRunnable);
         }
     }
@@ -106,8 +163,9 @@ public class SoundPlayer {
     public void setBpm(int bpm) {
         this.bpm = bpm;
         if (isRunning) {
-            // Перезапускаем таймер с новым интервалом
             stop();
+            handler.removeCallbacks(tickRunnable);
+            nextTickTime = 0;  // ← сброс
             start();
         }
     }
@@ -122,5 +180,15 @@ public class SoundPlayer {
             soundPool.release();
             soundPool = null;
         }
+    }
+
+    public interface TickCallback {
+        void onTick();
+    }
+
+    private TickCallback callback;
+
+    public void setCallback(TickCallback callback) {
+        this.callback = callback;
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+//import com.google.android.material.slider.Slider;
 
 public class MattActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -25,7 +28,6 @@ public class MattActivity extends AppCompatActivity {
 
     private TextView mTempoView;
 
-    MattAnimation animation;
 
     private ToggleButton mPlayButton;
     private SeekBar mTempoChanger;
@@ -33,6 +35,9 @@ public class MattActivity extends AppCompatActivity {
     private Button mTempoPlusOne;
     private Button mTempoMinusOne;
     private ImageView mImageView;
+    private MattAnimation animation;
+
+//    private MattAnimationSurface animation;
 
     private SoundPlayer player;
 
@@ -41,14 +46,23 @@ public class MattActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        bpm = BPM_DEFAULT;
+
+//        SurfaceView surfaceView = findViewById(R.id.matt_surface);
+//        animation = new MattAnimationSurface(surfaceView, this);
+
         mImageView = findViewById(R.id.matt_the_cat);
         animation = new MattAnimation(this, mImageView);
+        animation.setBpm(BPM_DEFAULT);
 
         player = new SoundPlayer(this);
         player.setBpm(BPM_DEFAULT);
         player.setVolume(DEFAULT_VOLUME);
+        player.setCallback(() -> {
+            runOnUiThread(() -> animation.syncFrame());
+        });
 
-        bpm = BPM_DEFAULT;
 
         mTempoView = findViewById(R.id.tempo_view);
         mTempoView.setText(String.valueOf(bpm));
@@ -93,10 +107,11 @@ public class MattActivity extends AppCompatActivity {
         });
 
         mVolumeChanger = findViewById(R.id.volumeChanger);
+        mVolumeChanger.setProgress((int) (DEFAULT_VOLUME * 100f));
         mVolumeChanger.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                player.setVolume(progress/100f);
+                player.setVolume(progress / 100f);
             }
 
             @Override
@@ -109,6 +124,13 @@ public class MattActivity extends AppCompatActivity {
 
             }
         });
+//        Slider volumeSlider = findViewById(R.id.volumeSlider);
+//        volumeSlider.setValue(DEFAULT_VOLUME);
+//        volumeSlider.addOnChangeListener((slider, value, fromUser) -> {
+//            if (fromUser) {  // только если пользователь меняет
+//                player.setVolume(value);
+//            }
+//        });
 
         mTempoPlusOne = findViewById(R.id.button_plus);
         mTempoPlusOne.setOnClickListener(listener -> {

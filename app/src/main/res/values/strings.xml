@@ -7,5 +7,6 @@
     <string name="tempo">TEMPO</string>
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>
+    <string name="matt_the_cat_description">Кот Мэтт, хвост которого двигается в такт метроному</string>
 
 </resources>
